@@ -5,6 +5,9 @@
 
 var rdb = new function(){
     
+    //Set this to true if you want to take over the console and output it to the remote server
+    this.hijackConsole = true;
+    
     /**
     * debugURL - set this to be the location of the node server you are trying to debug to.
     **/
@@ -53,37 +56,41 @@ var rdb = new function(){
 
 };
 
-/**
-* Overwrite the existing log function to hijack it for server debugging use
-**/
-console.log = function(data){
-    rdb.log(data);
-}
 
-/**
-* Overwrite the existing error function to hijack it for server debugging use
-**/
-console.error = function(data){
-    rdb.log(data);
-}
+if( rdb.hijackConsole){
+    /**
+    * Overwrite the existing log function to hijack it for server debugging use
+    **/
+    console.log = function(data){
+        rdb.log(data);
+    }
 
-/**
-* Overwrite the existing warn function to hijack it for server debugging use
-**/
-console.warn = function(data){
-    rdb.log(data);
-}
+    /**
+    * Overwrite the existing error function to hijack it for server debugging use
+    **/
+    console.error = function(data){
+        rdb.log(data);
+    }
 
-/**
-* Overwrite the existing info function to hijack it for server debugging use
-**/
-console.info = function(data){
-    rdb.log(data);
-}
+    /**
+    * Overwrite the existing warn function to hijack it for server debugging use
+    **/
+    console.warn = function(data){
+        rdb.log(data);
+    }
 
-/**
-* Catch all errors and log them out to the server
-**/
-window.onerror = function(msg,url,line,col,error){
-    rdb.log("file:" + url + " line:" + line + " column:" + col + " " + msg);
+    /**
+    * Overwrite the existing info function to hijack it for server debugging use
+    **/
+    console.info = function(data){
+        rdb.log(data);
+    }
+
+    /**
+    * Catch all errors and log them out to the server
+    **/
+    window.onerror = function(msg,url,line,col,error){
+        rdb.log("file:" + url + " line:" + line + " column:" + col + " " + msg);
+    }
+
 }
