@@ -13,12 +13,6 @@ var rdb = new function(){
     **/
     this.debugURL = 'http://cias-sms-nodejs.rit.edu:3000';
     
-    /**
-    * prefix - set this to a prefix for the log file. Every entry in the log will have this prefix
-    * assigned to it. This makes it easier to keep certain clients or apps separate
-    **/
-    this.prefix = '';
-    
     this.socket = io.connect(this.debugURL);
     
     /**
@@ -33,6 +27,7 @@ var rdb = new function(){
         this.log("Pixel Ratio: " + window.devicePixelRatio);
         this.log("Height: " + window.innerHeight);
         this.log("Width: " + window.innerWidth );
+        this.log("prefix: " + this.prefix );
     };
     
     /**
@@ -53,6 +48,21 @@ var rdb = new function(){
     this.setPrefix = function( newPrefix ){
         this.prefix = newPrefix;   
     };
+    
+    /**
+    * generateRandId - Generates a pseudo-random prefix for the console in case there are more than one
+    * device using the console at a time.
+    */
+    this.generateRandId = function(){
+        var id= Math.floor( (Math.random()*100) + (Math.random()*100) + (Math.random()*100) + (Math.random()*100) );
+        return id + ": ";   
+    }
+    
+    /**
+    * prefix - set this to a prefix for the log file. Every entry in the log will have this prefix
+    * assigned to it. This makes it easier to keep certain clients or apps separate
+    **/
+    this.prefix = this.generateRandId();
 
 };
 
@@ -90,7 +100,7 @@ if( rdb.hijackConsole){
     * Catch all errors and log them out to the server
     **/
     window.onerror = function(msg,url,line,col,error){
-        rdb.log("file:" + url + " line:" + line + " column:" + col + " " + msg);
+        rdb.log( url + " line:" + line + " column:" + col + " " + msg);
     }
 
 }

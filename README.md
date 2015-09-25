@@ -15,6 +15,7 @@ Server Side
 Client Side
 1. Include the remoteDebugger.js file in your html
 2. Set the port the server is listening on in the remoteDebugger.js (default is 3000)
-3. Use console.log, console.error, console.info, and console.warn normally within your javascript
+3. Include the following js file in the head of your html so that socket.io will work: https://cdn.socket.io/socket.io-1.2.0.js
+4. Use console.log, console.error, console.info, and console.warn normally within your javascript
 
 If you're having trouble connecting to the remote server you should ensure that your firewall is allowing the necessary port through.
